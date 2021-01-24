@@ -4,8 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django = "*"
-psycopg2-binary = "*"
+Django = "*"
 gunicorn = "*"
 dj-database-url = "*"
 dj-static = "*"
@@ -13,12 +12,12 @@ dj-static = "*"
 [dev-packages]
 pylint = "*"
 django-extensions = "*"
-django-linter = "*"
+django_linter = "*"
 ipython = "*"
 ipdb = "*"
-pygments = "*"
+Pygments = "*"
 jedi = "*"
-werkzeug = "*"
+Werkzeug = "*"
 django-debug-toolbar = "*"
 
 [requires]

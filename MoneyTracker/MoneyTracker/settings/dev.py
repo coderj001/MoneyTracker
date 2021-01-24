@@ -14,6 +14,26 @@ INSTALLED_APPS += [
     'debug_toolbar',
 ]
 
+# For docker config
+if environ.get('db') == 'sqlite3':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+elif environ.get('db') == 'postgresql':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'postgres',
+            'USER': 'postgres',
+            'HOST': 'db',
+            'POST': 5432,
+        }
+    }
+
+
 # django extension
 # Always use IPython for shell_plus
 SHELL_PLUS = "ipython"

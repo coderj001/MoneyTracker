@@ -1,10 +1,21 @@
 """ production """
 from .base import *
 
-
 DEBUG = False
 
+
 ALLOWED_HOSTS = ["*"]
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'HOST': 'db',
+        'POST': 5432,
+    }
+}
 
 # logging
 LOGGING = {
