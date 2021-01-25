@@ -15,14 +15,7 @@ INSTALLED_APPS += [
 ]
 
 # For docker config
-if environ.get('db') == 'sqlite3':
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
-elif environ.get('db') == 'postgresql':
+if environ.get('db') == 'postgresql':
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -30,6 +23,13 @@ elif environ.get('db') == 'postgresql':
             'USER': 'postgres',
             'HOST': 'db',
             'POST': 5432,
+        }
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
 

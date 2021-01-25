@@ -11,10 +11,12 @@ WORKDIR /code
 
 # install dependencies
 RUN pip install --upgrade pip
-RUN pip install pipenv && pipenv install --system
+RUN pip install pipenv
 ADD Pipfile Pipfile.lock /code/
-RUN pipenv install && pipenv install --dev
-RUN pipenv run MoneyTracker/manage.py collectstatic
+RUN pipenv install 
+RUN pipenv install --dev
 
 # copy project
 ADD . /code/
+RUN pipenv run MoneyTracker/manage.py collectstatic
+
