@@ -15,13 +15,19 @@
                     </div>
                 </div>
                 <form action="" method="post" name="login">
+                    {% csrf_token %}
                     <div class="form-group p-1">
-                        <label for="exampleInputEmail1">Email address</label>
-                        <input type="email" name="email"  class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+                        <label for="username">Username</label>
+                        <input type="text"  name="username" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Enter Username">
                     </div>
                     <div class="form-group p-1">
-                        <label for="exampleInputEmail1">Password</label>
-                        <input type="password" name="password" id="password"  class="form-control" aria-describedby="emailHelp" placeholder="Enter Password">
+                        <label for="password">Password</label>
+                        <div class="input-group mb-3">
+                          <input type="password" class="form-control" placeholder="Enter Password" aria-label="password" aria-describedby="show-addon">
+                          <div class="input-group-append">
+                            <span class="input-group-text" id="show-addon">SHOW</span>
+                          </div>
+                        </div>
                     </div>
                     <div class="col-md-12 text-center p-2">
                         <button type="submit" class=" btn btn-block mybtn btn-primary tx-tfm">Login</button>

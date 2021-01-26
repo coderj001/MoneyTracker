@@ -1,4 +1,5 @@
 {% extends "base_auth.html" %}
+{% load static %}
 
 {% block Title %} Registration {% endblock Title %}
 
@@ -15,26 +16,28 @@
                     </div>
                 </div>
                 <form action="#" name="registration">
+                    {% csrf_token %}
                     <div class="form-group p-1">
                         <label for="firstname">First Name</label>
-                        <input type="text"  name="firstname" class="form-control" id="firstname" aria-describedby="emailHelp" placeholder="Enter Firstname">
+                        <input type="text"  name="firstname" class="form-control" id="firstnameField" aria-describedby="emailHelp" placeholder="Enter Firstname">
                     </div>
                     <div class="form-group p-1">
                         <label for="lastname">Last Name</label>
-                        <input type="text"  name="lastname" class="form-control" id="lastname" aria-describedby="emailHelp" placeholder="Enter Lastname">
+                        <input type="text"  name="lastname" class="form-control" id="lastnameField" aria-describedby="emailHelp" placeholder="Enter Lastname">
                     </div>
                     <div class="form-group p-1">
                         <label for="username">Username</label>
-                        <input type="text"  name="username" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Enter Username">
+                        <input type="text"  name="username" class="form-control" id="usernameField" aria-describedby="emailHelp" placeholder="Enter Username">
+                        <small id="username-validity-message" class="visually-hidden"></small>
                     </div>
                     <div class="form-group p-1">
                         <label for="email">Email address</label>
-                        <input type="email" name="email"  class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+                        <input type="email" name="email"  class="form-control" id="emailField" aria-describedby="emailHelp" placeholder="Enter email">
                     </div>
                     <div class="form-group p-1">
                         <label for="password">Password</label>
                         <div class="input-group mb-3">
-                          <input type="password" class="form-control" placeholder="Enter Password" aria-label="password" aria-describedby="show-addon">
+                          <input type="password" class="form-control" id="passwordField" placeholder="Enter Password" aria-label="password" aria-describedby="show-addon">
                           <div class="input-group-append">
                             <span class="input-group-text" id="show-addon">SHOW</span>
                           </div>
@@ -55,3 +58,7 @@
     </div>
 
 {% endblock content %}
+
+{% block script %}
+    <script src="{% static 'js/register.js' %}" charset="utf-8"></script>
+{% endblock script %}
