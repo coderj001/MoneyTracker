@@ -1,3 +1,4 @@
+from django.contrib.messages import constants as messages
 from os import environ
 from pathlib import Path
 
@@ -84,3 +85,12 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (BASE_DIR / 'static',)
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'info',
+    messages.INFO: 'info',
+    messages.SUCCESS: 'success',
+    messages.WARNING: 'warning',
+    messages.ERROR: 'danger',
+}

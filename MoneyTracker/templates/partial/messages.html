@@ -1,0 +1,12 @@
+{% if messages %}
+<div class="p-2">
+    <ul class="messages list-group">
+        {% for message in messages %}
+        <li{% if message.tags %} class="list-group-item list-group-item-{{ message.tags }}"{% endif %} role="alert">
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+            {{ message }}
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}

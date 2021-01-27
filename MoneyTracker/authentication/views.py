@@ -1,15 +1,47 @@
-from django.shortcuts import render
-from django.views import View
-from django.http import JsonResponse
+import json
+
 from django.contrib.auth.models import User
+from django.contrib import messages
+from django.http import JsonResponse
+from django.shortcuts import render, redirect
+from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-import json
 
 
 class RegistrationView(View):
     def get(self, request):
         return render(request, 'authentication/register.html', context={})
+
+    def post(self, request):
+        firstname = request.POST.get('firstname')
+        lastname = request.POST.get('lastname')
+        email = request.POST.get('email')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        context = {'fieldVal': request.POST}
+
+        if len(password) < 6:
+            messages.add_message(request, messages.ERROR,
+                                 "Password is too short.")
+            return render(request,
+                          'authentication/register.html', context=context)
+
+        try:
+            user = User.objects.create_user(username=username, email=email)
+            user.set_password(password)
+            user.first_name = firstname
+            user.last_name = lastname
+            user.save()
+            messages.add_message(request, messages.SUCCESS,
+                                 "Account created successfully.")
+            return redirect('core:home')
+        except Exception as e:
+            messages.add_message(request, messages.ERROR,
+                                 "Please enter unique username and email.")
+            return render(request, 'authentication/register.html',
+                          context=context)
 
 
 class LoginView(View):

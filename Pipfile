@@ -18,6 +18,7 @@ Pygments = "*"
 jedi = "*"
 Werkzeug = "*"
 django-debug-toolbar = "*"
+isort = "*"
 
 [requires]
 python_version = "3.8"

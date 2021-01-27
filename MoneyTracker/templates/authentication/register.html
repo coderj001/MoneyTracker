@@ -15,30 +15,31 @@
                         <h1 class="display-3">Register</h1>
                     </div>
                 </div>
-                <form action="#" name="registration">
+                {% include "partial/messages.html" %}
+                <form action="{% url 'auth:register' %}" name="registration" method="post">
                     {% csrf_token %}
                     <div class="form-group p-1">
                         <label for="firstname">First Name</label>
-                        <input type="text"  name="firstname" class="form-control" id="firstnameField" aria-describedby="emailHelp" placeholder="Enter Firstname">
+                        <input type="text"  name="firstname" class="form-control" id="firstnameField" aria-describedby="emailHelp" placeholder="Enter Firstname" value="{% if fieldVal.firstname %}{{fieldVal.firstname}}{% endif %}">
                     </div>
                     <div class="form-group p-1">
                         <label for="lastname">Last Name</label>
-                        <input type="text"  name="lastname" class="form-control" id="lastnameField" aria-describedby="emailHelp" placeholder="Enter Lastname">
+                        <input type="text"  name="lastname" class="form-control" id="lastnameField" aria-describedby="emailHelp" placeholder="Enter Lastname" value="{% if fieldVal.lastname %}{{fieldVal.lastname}}{% endif %}">
                     </div>
                     <div class="form-group p-1">
                         <label for="username">Username</label>
-                        <input type="text"  name="username" class="form-control" id="usernameField" aria-describedby="emailHelp" placeholder="Enter Username">
+                        <input type="text"  name="username" class="form-control" id="usernameField" aria-describedby="emailHelp" placeholder="Enter Username" value="{% if fieldVal.username %}{{fieldVal.username}}{% endif %}">
                         <small id="username-validity-message" class="visually-hidden"></small>
                     </div>
                     <div class="form-group p-1">
                         <label for="email">Email address</label>
-                        <input type="email" name="email"  class="form-control" id="emailField" aria-describedby="emailHelp" placeholder="Enter email">
+                        <input type="email" name="email"  class="form-control" id="emailField" aria-describedby="emailHelp" placeholder="Enter email" value="{% if fieldVal.email %}{{fieldVal.email}}{% endif %}">
                         <small id="email-validity-message" class="visually-hidden"></small>
                     </div>
                     <div class="form-group p-1">
                         <label for="password">Password</label>
                         <div class="input-group mb-3">
-                          <input type="password" class="form-control" id="passwordField" placeholder="Enter Password" aria-label="password" aria-describedby="show-addon">
+                          <input type="password" name="password" class="form-control" id="passwordField" placeholder="Enter Password" aria-label="password" aria-describedby="show-addon">
                           <div class="input-group-append">
                             <span class="input-group-text" id="show-addon">SHOW</span>
                           </div>
