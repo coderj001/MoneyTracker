@@ -1,5 +1,6 @@
-from authentication.views import (
-    RegistrationView, LoginView, username_validation, email_validation)
+from authentication.views import (LoginView, RegistrationView,
+                                  email_validation, logout_user,
+                                  username_validation)
 from django.urls import path
 
 app_name = 'auth'
@@ -11,4 +12,6 @@ urlpatterns = [
          username_validation, name="username-validation"),
     path('email_validation',
          email_validation, name="email-validation"),
+    path('logout_user/', logout_user, name="logout-user"),
+
 ]

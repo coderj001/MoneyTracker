@@ -15,16 +15,16 @@
                         <h1 class="display-3">Login</h1>
                     </div>
                 </div>
-                <form action="" method="post" name="login">
+                <form action="{% url 'auth:login' %}" method="post" name="login">
                     {% csrf_token %}
                     <div class="form-group p-1">
                         <label for="username">Username</label>
-                        <input type="text"  name="username" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Enter Username">
+                        <input type="text"  name="username" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Enter Username" value="{% if fieldVal.username %}{{fieldVal.username}}{% endif %}">
                     </div>
                     <div class="form-group p-1">
                         <label for="password">Password</label>
                         <div class="input-group mb-3">
-                          <input type="password" class="form-control" placeholder="Enter Password" id="passwordField" aria-label="password" aria-describedby="show-addon">
+                          <input type="password" class="form-control" placeholder="Enter Password" name="password" id="passwordField" aria-label="password" aria-describedby="show-addon">
                           <div class="input-group-append">
                             <span class="input-group-text" id="show-addon">SHOW</span>
                           </div>
