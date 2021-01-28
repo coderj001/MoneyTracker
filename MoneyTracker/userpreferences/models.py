@@ -3,7 +3,8 @@ from django.db import models
 
 
 class Userpreference(models.Model):
-    user = models.OneToOneField(to=User, on_delete=models.CASCADE)
+    user = models.OneToOneField(
+        to=User, on_delete=models.CASCADE, related_name="preferences")
     currency = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:

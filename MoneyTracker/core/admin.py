@@ -1,3 +1,12 @@
 from django.contrib import admin
+from core.models import Expense, Catagory
 
-# Register your models here.
+
+@admin.register(Expense)
+class ExpenseAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Catagory)
+class CatagoryAdmin(admin.ModelAdmin):
+    pass

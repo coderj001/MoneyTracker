@@ -3,8 +3,18 @@
 {% block Title %} Add Expense {% endblock Title %}
 
 
+
 {% block content %}
     {% include "partial/messages.html" %}
+    <br>
+    <div class="mt-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Expense</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Add Expense</li>
+            </ol>
+        </nav>
+    </div>
     <h1 class="pt-3">Add Expense</h1>
 {% endblock content %}
 
