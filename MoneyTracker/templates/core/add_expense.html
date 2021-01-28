@@ -16,5 +16,45 @@
         </nav>
     </div>
     <h1 class="pt-3">Add Expense</h1>
+
+    <form action="{% url 'core:add-expense' %}" method="post">
+        {% csrf_token %}
+        <div class="card text-center">
+            <div class="card-body">
+
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="basic-addon1">Amount</span>
+                  <input type="number" class="form-control" name="amount" placeholder="Add Amount" aria-label="Username" aria-describedby="basic-addon1" {% if fieldVal.amount %} value="{{fieldVal.amount}}" {% endif %}>
+               </div>
+
+               <div class="input-group mb-3">
+                  <span class="input-group-text">Description</span>
+                  <textarea class="form-control" name="description" aria-label="With textarea" placeholder="Add Description" >{% if fieldVal.description %}{{fieldVal.description}}{% endif %}</textarea>
+               </div>
+
+            <div class="input-group mb-3">
+              <label class="input-group-text" for="currency_form">Catagory</label>
+              <select class="form-select" id="currency_form" name="category" aria-label="Example select with button addon">
+                <option selected>Choose...</option>
+                {% for category in catagories %}
+                {% if category.name == fieldVal.category %}
+                    <option value="{{category.name}}" selected>{{category.name}}</option>
+                {% else %}
+                    <option value="{{category.name}}">{{category.name}}</option>
+                {% endif %}
+                {% endfor %}
+              </select>
+            </div>
+
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="basic-addon1">Date</span>
+              <input type="date" class="form-control" name="date" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" {% if fieldVal.date %} value="{{fieldVal.date}}" {% endif %}>
+           </div>
+           <div class="btn-group btn-group-lg position-relative" role="group">
+                <button type="submit" class="btn btn-primary">Submit</button>
+           </div>
+           </div>
+        </div>
+    </form>
 {% endblock content %}
 

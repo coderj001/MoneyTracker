@@ -18,8 +18,34 @@
             </nav>
         </div>
         <div class="col-md-2">
-            <button class="btn btn-primary">Add Expenses</button>
+            <a class="btn btn-primary" href="{% url 'core:add-expense' %}">Add Expenses</a>
         </div>
     </div>
-    <h1 class="pt-3">Heading</h1>
+    <br />
+    <br />
+    {% if expenses %}
+        <div class="container m-2">
+            <table class="table table-stripped table-hover">
+                <thead>
+                    <tr>
+                        <th>Amount (CURRENCY)</th>
+                        <th>Catagory</th>
+                        <th>Description</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for expense in expenses %}
+                    <tr>
+                        <th>{{expense.amount}}</th>
+                        <th>{{expense.category}}</th>
+                        <th>{{expense.description}}</th>
+                        <th>{{expense.date|date:"d/m/Y"}}</th>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+    
 {% endblock content %}

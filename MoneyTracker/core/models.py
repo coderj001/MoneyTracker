@@ -4,11 +4,11 @@ from django.utils.timezone import now
 
 
 class Expense(models.Model):
-    amount = models.FloatField()
+    amount = models.FloatField(blank=False)
     date = models.DateField(default=now)
-    description = models.TextField()
+    description = models.TextField(blank=True)
     owner = models.ForeignKey(to=User, on_delete=models.CASCADE)
-    category = models.CharField(max_length=256)
+    category = models.CharField(max_length=256, blank=True, null=True)
 
     class Meta:
         verbose_name = "Expense"
