@@ -17,7 +17,8 @@ INSTALLED_APPS = [
 
     # added apps
     'core',
-    'authentication'
+    'authentication',
+    'userpreferences',
 ]
 
 MIDDLEWARE = [

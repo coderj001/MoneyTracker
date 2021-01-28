@@ -1,8 +1,7 @@
 import json
-import logging
 
 from django.contrib import messages
-from django.contrib.auth import authenticate, logout
+from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import JsonResponse
@@ -11,9 +10,6 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
-
-# Get an instance of a logger
-logger = logging.getLogger(__name__)
 
 class RegistrationView(View):
     def get(self, request):
@@ -44,7 +40,6 @@ class RegistrationView(View):
                                  "Account created successfully.")
             return redirect('core:home')
         except Exception as e:
-            logger.error('Error: ', e)
             messages.add_message(request, messages.ERROR,
                                  "Please enter unique username and email.")
             return render(request, 'authentication/register.html',
@@ -59,9 +54,20 @@ class LoginView(View):
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(username=username, password=password)
+        if username is None or password is None:
+            messages.add_message(request, messages.WARNING,
+                                 "Please fill username and password.")
         if user is not None:
+            login(request, user)
+            messages.add_message(
+                request,
+                messages.SUCCESS,
+                f"Login is successfully. Welcome, {user.username}."
+            )
             return redirect("core:home")
         else:
+            messages.add_message(request, messages.ERROR,
+                                 "Please fill correct username and password.")
             return render(request, 'authentication/login.html', context={
                 'fieldVal': request.POST,
             })

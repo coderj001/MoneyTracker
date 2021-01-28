@@ -8,6 +8,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),
     path('auth/', include('authentication.urls')),
+    path('preference/', include('userpreferences.urls')),
 ]
 
 if environ.get('debug') == 'True':
