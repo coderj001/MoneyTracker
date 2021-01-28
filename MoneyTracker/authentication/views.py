@@ -38,7 +38,8 @@ class RegistrationView(View):
             user.save()
             messages.add_message(request, messages.SUCCESS,
                                  "Account created successfully.")
-            return redirect('core:home')
+
+            return redirect('auth:login')
         except Exception as e:
             messages.add_message(request, messages.ERROR,
                                  "Please enter unique username and email.")

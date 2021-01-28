@@ -37,17 +37,17 @@
   </head>
   <body>
     
-<header class="navbar navbar-dark sticky-top bg-light flex-md-nowrap p-0 shadow">
+<header class="navbar navbar-dark sticky-top bg-light flex-md-nowrap p-0">
   <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 bg-dark" href="{% url 'core:home' %}">Money Tracker</a>
   <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   {% if request.user.is_authenticated %}
-      <span class="nav-link">{{ request.user.username }} ( {{request.user.email}} )</span>
+      <span class="">{{ request.user.username }} ( {{request.user.email}} )</span>
   {% endif %}
   <ul class="navbar-nav px-3">
     <li class="nav-item text-nowrap">
-      <a class="nav-link btn btn-dark" href="{% url 'auth:logout-user' %}">Sign out</a>
+      <a class="btn btn-danger" href="{% url 'auth:logout-user' %}">Sign out</a>
     </li>
   </ul>
 </header>
