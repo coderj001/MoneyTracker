@@ -18,7 +18,11 @@
                 <option selected>Choose...</option>
                     {% if currencies %}
                         {% for currency in currencies %}
-                        <option value="{{currency.name}}">{{currency.name}} - {{currency.value}}</option>
+                            {% if current_currency == currency.name  %}
+                                <option value="{{currency.name}}" selected>{{currency.name}} - {{currency.value}}</option>
+                            {% else %}
+                                <option value="{{currency.name}}">{{currency.name}} - {{currency.value}}</option>
+                            {% endif %}
                         {% endfor %}
                     {% endif %}
               </select>
