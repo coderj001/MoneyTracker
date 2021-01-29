@@ -23,12 +23,12 @@
     </div>
     <br />
     <br />
-    {% if expenses %}
+    {% if page_obj %}
         <div class="container m-2">
             <table class="table table-stripped table-hover">
                 <thead>
                     <tr>
-                        <th>Amount (CURRENCY)</th>
+                        <th>Amount ({{request.user.preferences.currency}})</th>
                         <th>Catagory</th>
                         <th>Description</th>
                         <th>Date</th>
@@ -37,7 +37,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for expense in expenses %}
+                    {% for expense in page_obj %}
                     <tr>
                         <th>{{expense.amount}}</th>
                         <th>{{expense.category}}</th>
@@ -51,5 +51,45 @@
             </table>
         </div>
     {% endif %}
+    <div class="row">
+        <div class="col">
+            <div> Showing page {{page_obj.number}} of {{page_obj.paginator.num_pages}} </div>
+        </div>
+        <div class="col">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination pagination-sm justify-content-end">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1" aria-label="First Page">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{page_obj.previous_page_number}}" aria-label="Previous">Previous</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="" tabindex="-1" aria-disabled="true">Previous</a>
+                    </li>
+                    {% endif %}
+                    <li class="page-item"><a class="page-link" href="?page={{page_obj.number}}">{{page_obj.number}}</a></li>
+                    {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{page_obj.next_page_number}}" aria-label="Next">Next</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{page_obj.paginator.num_pages}}" aria-label="Last Page">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="" tabindex="-1" aria-disabled="true">Next</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
     
 {% endblock content %}

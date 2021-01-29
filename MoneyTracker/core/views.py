@@ -4,12 +4,17 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.utils.timezone import now
+from django.core.paginator import Paginator
 
 
 @login_required(login_url=reverse_lazy('auth:login'))
 def home(request):
     data = Expense.objects.filter(owner=request.user)
-    return render(request, 'core/index.html', context={"expenses": data})
+    paginator = Paginator(data, 3)
+    page_number = request.GET.get('page')
+    page_obj = Paginator.get_page(paginator, page_number)
+    return render(request, 'core/index.html',
+                  context={"expenses": data, "page_obj": page_obj})
 
 
 @login_required(login_url=reverse_lazy('auth:login'))
