@@ -32,6 +32,8 @@
                         <th>Catagory</th>
                         <th>Description</th>
                         <th>Date</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -39,8 +41,10 @@
                     <tr>
                         <th>{{expense.amount}}</th>
                         <th>{{expense.category}}</th>
-                        <th>{{expense.description}}</th>
+                        <th> {% if expense.description is not '' %} {{expense.description}} {% else %} No Description {% endif %} </th>
                         <th>{{expense.date|date:"d/m/Y"}}</th>
+                        <th><a href="{% url 'core:edit-expense' expense.id %}" class="link-primary">edit</a></th>
+                        <th><a href="{% url 'core:delete-expense' expense.id %}" class="link-danger">delete</a></th>
                     </tr>
                     {% endfor %}
                 </tbody>

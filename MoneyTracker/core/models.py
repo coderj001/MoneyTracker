@@ -15,9 +15,6 @@ class Expense(models.Model):
         verbose_name_plural = "Expenses"
         ordering = ("-date",)
 
-    def __str__(self):
-        return self.category
-
 
 class Catagory(models.Model):
     name = models.CharField(max_length=256, verbose_name='catagory name')
