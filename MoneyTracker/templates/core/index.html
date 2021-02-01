@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block Title %} Home {% endblock Title %}
 
@@ -23,9 +24,20 @@
     </div>
     <br />
     <br />
+    <div class="row">
+        <div class="col-md-6"></div>
+        <div class="col-md-6">
+            <form action="" method="post">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="">Search</span>
+                    <input type="text" id="searchField" class="form-control" placeholder="">
+                </div>
+           </form>
+        </div>
+    </div>
     {% if page_obj %}
         <div class="container m-2">
-            <table class="table table-stripped table-hover">
+            <table id="table-data" class="table table-stripped table-hover">
                 <thead>
                     <tr>
                         <th>Amount ({{request.user.preferences.currency}})</th>
@@ -36,13 +48,13 @@
                         <th></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="table-tbody-data" class="visually-hidden">
                     {% for expense in page_obj %}
                     <tr>
                         <th>{{expense.amount}}</th>
                         <th>{{expense.category}}</th>
                         <th> {% if expense.description is not '' %} {{expense.description}} {% else %} No Description {% endif %} </th>
-                        <th>{{expense.date|date:"d/m/Y"}}</th>
+                        <th>{{expense.date|date:"Y/m/d"}}</th>
                         <th><a href="{% url 'core:edit-expense' expense.id %}" class="link-primary">edit</a></th>
                         <th><a href="{% url 'core:delete-expense' expense.id %}" class="link-danger">delete</a></th>
                     </tr>
@@ -69,7 +81,7 @@
                     </li>
                     {% else %}
                     <li class="page-item disabled">
-                        <a class="page-link" href="" tabindex="-1" aria-disabled="true">Previous</a>
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
                     </li>
                     {% endif %}
                     <li class="page-item"><a class="page-link" href="?page={{page_obj.number}}">{{page_obj.number}}</a></li>
@@ -93,3 +105,7 @@
     </div>
     
 {% endblock content %}
+
+{% block script %}
+   <script src="{% static 'js/search.js' %}"></script>
+{% endblock script %}

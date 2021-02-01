@@ -1,16 +1,22 @@
+import json
+
 from core.models import Catagory, Expense
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
+from django.db.models import Q
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.utils.timezone import now
-from django.core.paginator import Paginator
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 
 
 @login_required(login_url=reverse_lazy('auth:login'))
 def home(request):
     data = Expense.objects.filter(owner=request.user)
-    paginator = Paginator(data, 3)
+    paginator = Paginator(data, 6)
     page_number = request.GET.get('page')
     page_obj = Paginator.get_page(paginator, page_number)
     return render(request, 'core/index.html',
@@ -85,3 +91,21 @@ def delete_expense(request, id):
     expense = Expense.objects.get(pk=id)
     expense.delete()
     return redirect('core:home')
+
+
+@csrf_exempt
+@require_POST
+@login_required
+def search_expenses(request):
+    if request.method == 'POST':
+        search_var = json.loads(request.body).get('searchText')
+        expenses = Expense.objects.filter(
+            Q(amount__startswith=search_var) |
+            Q(date__startswith=search_var) |
+            Q(description__icontains=search_var) |
+            Q(category__icontains=search_var),
+            owner=request.user)[:6]
+
+        data = expenses.values()
+
+        return JsonResponse(list(data), safe=False)
