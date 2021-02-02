@@ -1,8 +1,8 @@
-from core.views import (add_expense, delete_expense, edit_expense, home,
-                        search_expenses)
+from expenses.views import (add_expense, delete_expense, edit_expense, home,
+                            search_expenses)
 from django.urls import path
 
-app_name = 'core'
+app_name = 'expenses'
 
 urlpatterns = [
     path('', home, name="home"),

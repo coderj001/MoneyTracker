@@ -1,6 +1,6 @@
 import json
 
-from core.models import Catagory, Expense
+from expenses.models import Catagory, Expense
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
@@ -19,7 +19,7 @@ def home(request):
     paginator = Paginator(data, 6)
     page_number = request.GET.get('page')
     page_obj = Paginator.get_page(paginator, page_number)
-    return render(request, 'core/index.html',
+    return render(request, 'expenses/index.html',
                   context={"expenses": data, "page_obj": page_obj})
 
 
@@ -32,7 +32,7 @@ def add_expense(request):
         if not amount:
             messages.add_message(request, messages.WARNING,
                                  "Amount is required.")
-            return render(request, 'core/add_expense.html',
+            return render(request, 'expenses/add_expense.html',
                           context={'catagories': catagory,
                                    'fieldVal': request.POST}
                           )
@@ -47,9 +47,9 @@ def add_expense(request):
                                category=catagory_res, date=date)
         messages.add_message(request, messages.SUCCESS,
                              "Expense saved successfully.")
-        return redirect('core:home')
+        return redirect('expenses:home')
 
-    return render(request, 'core/add_expense.html',
+    return render(request, 'expenses/add_expense.html',
                   context={'catagories': catagory}
                   )
 
@@ -59,7 +59,7 @@ def edit_expense(request, id):
     expense = Expense.objects.get(pk=id)
     catagory = Catagory.objects.all()
     if request.method == 'GET':
-        return render(request, 'core/edit_expense.html', context={
+        return render(request, 'expenses/edit_expense.html', context={
             'fieldVal': expense,
             'catagories': catagory,
         })
@@ -69,7 +69,7 @@ def edit_expense(request, id):
         if not amount:
             messages.add_message(request, messages.WARNING,
                                  "Amount is required.")
-            return redirect('core:edit-expense', id=expense.pk)
+            return redirect('expenses:edit-expense', id=expense.pk)
 
         description = request.POST.get('description')
         catagory_res = request.POST.get('category')
@@ -83,14 +83,14 @@ def edit_expense(request, id):
         expense.save()
         messages.add_message(request, messages.SUCCESS,
                              "Expense is updated successfully.")
-        return redirect('core:edit-expense', id=expense.pk)
+        return redirect('expenses:edit-expense', id=expense.pk)
 
 
 @login_required(login_url=reverse_lazy('auth:login'))
 def delete_expense(request, id):
     expense = Expense.objects.get(pk=id)
     expense.delete()
-    return redirect('core:home')
+    return redirect('expenses:home')
 
 
 @csrf_exempt
