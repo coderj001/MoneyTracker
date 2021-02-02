@@ -20,7 +20,7 @@ def home_expense(request):
     page_number = request.GET.get('page')
     page_obj = Paginator.get_page(paginator, page_number)
     return render(request, 'expenses/index.html',
-                  context={"expenses": data, "page_obj": page_obj})
+                  context={"page_obj": page_obj})
 
 
 @login_required(login_url=reverse_lazy('auth:login'))
@@ -47,7 +47,7 @@ def add_expense(request):
                                category=catagory_res, date=date)
         messages.add_message(request, messages.SUCCESS,
                              "Expense saved successfully.")
-        return redirect('expenses:home')
+        return redirect('expenses:home-expense')
 
     return render(request, 'expenses/add_expense.html',
                   context={'catagories': catagory}
@@ -90,7 +90,7 @@ def edit_expense(request, id):
 def delete_expense(request, id):
     expense = Expense.objects.get(pk=id)
     expense.delete()
-    return redirect('expenses:home')
+    return redirect('expenses:home-expense')
 
 
 @csrf_exempt

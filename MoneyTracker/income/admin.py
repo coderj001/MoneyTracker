@@ -1,3 +1,12 @@
 from django.contrib import admin
+from income.models import Income, Source
 
-# Register your models here.
+
+@admin.register(Income)
+class IncomeAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Source)
+class SourceAdmin(admin.ModelAdmin):
+    pass

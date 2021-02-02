@@ -10,6 +10,7 @@ urlpatterns = [
     path('', include('expenses.urls')),
     path('auth/', include('authentication.urls')),
     path('preference/', include('userpreferences.urls')),
+    path('income/', include('income.urls')),
 ]
 
 if environ.get('debug') == 'True':

@@ -12,7 +12,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="{% url 'expenses:home-expense' %}">Income</a>
+                        <a href="{% url 'income:home-income' %}">Income</a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">My Income</li>
                 </ol>
@@ -41,7 +41,7 @@
                 <thead>
                     <tr>
                         <th>Amount ({{request.user.preferences.currency}})</th>
-                        <th>Catagory</th>
+                        <th>Source</th>
                         <th>Description</th>
                         <th>Date</th>
                         <th></th>
@@ -49,14 +49,14 @@
                     </tr>
                 </thead>
                 <tbody id="table-tbody-data" class="">
-                    {% for expense in page_obj %}
+                    {% for income in page_obj %}
                     <tr>
-                        <th>{{expense.amount}}</th>
-                        <th>{{expense.category}}</th>
-                        <th> {% if expense.description is not '' %} {{expense.description}} {% else %} No Description {% endif %} </th>
-                        <th>{{expense.date|date:"Y/m/d"}}</th>
-                        <th><a href="{% url 'expenses:edit-expense' expense.id %}" class="link-primary">edit</a></th>
-                        <th><a href="{% url 'expenses:delete-expense' expense.id %}" class="link-danger">delete</a></th>
+                        <th>{{income.amount}}</th>
+                        <th>{{income.source}}</th>
+                        <th> {% if income.description is not '' %} {{income.description}} {% else %} No Description {% endif %} </th>
+                        <th>{{income.date|date:"Y/m/d"}}</th>
+                        {# <th><a href="{% url 'income:edit-income' income.id %}" class="link-primary">edit</a></th> #}
+                        {# <th><a href="{% url 'income:delete-income' income.id %}" class="link-danger">delete</a></th> #}
                     </tr>
                     {% endfor %}
                 </tbody>

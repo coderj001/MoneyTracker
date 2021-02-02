@@ -10,7 +10,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link {% if request.resolver_match.url_name == 'home-income' %} active {% endif %}" href="{% url 'income:home-income' %}">
               Income
             </a>
           </li>

@@ -25,7 +25,7 @@ class Source(models.Model):
 
     def save(self, *args, **kwargs):
         self.name = self.name.upper()
-        super(Catagory, self).save(*args, **kwargs)
+        super(Source, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name
