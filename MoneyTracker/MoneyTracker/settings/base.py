@@ -17,6 +17,7 @@ INSTALLED_APPS = [
 
     # added apps
     'expenses',
+    'income',
     'authentication',
     'userpreferences',
 ]

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block Title %} Home {% endblock Title %}
+{% block Title %} Income {% endblock Title %}
 
 
 {% block content %}
@@ -12,14 +12,14 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="{% url 'expenses:home-expense' %}">Expenses</a>
+                        <a href="{% url 'expenses:home-expense' %}">Income</a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">My Expense</li>
+                    <li class="breadcrumb-item active" aria-current="page">My Income</li>
                 </ol>
             </nav>
         </div>
         <div class="col-md-2">
-            <a class="btn btn-primary" href="{% url 'expenses:add-expense' %}">Add Expenses</a>
+            <a class="btn btn-primary" href="{% url 'expenses:add-expense' %}">Add Incomes</a>
         </div>
     </div>
     <br />
@@ -107,5 +107,5 @@
 {% endblock content %}
 
 {% block script %}
-   <script src="{% static 'js/searchExpenses.js' %}"></script>
 {% endblock script %}
+

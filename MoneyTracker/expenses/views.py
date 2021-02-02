@@ -14,7 +14,7 @@ from django.views.decorators.http import require_POST
 
 
 @login_required(login_url=reverse_lazy('auth:login'))
-def home(request):
+def home_expense(request):
     data = Expense.objects.filter(owner=request.user)
     paginator = Paginator(data, 6)
     page_number = request.GET.get('page')

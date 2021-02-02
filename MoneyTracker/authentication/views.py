@@ -65,7 +65,7 @@ class LoginView(View):
                 messages.SUCCESS,
                 f"Login is successfully. Welcome, {user.username}."
             )
-            return redirect("core:home")
+            return redirect("expenses:home")
         else:
             messages.add_message(request, messages.ERROR,
                                  "Please fill correct username and password.")
