@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block Title %} Add Income {% endblock Title %}
+{% block Title %} Edit Income {% endblock Title %}
 
 
 
@@ -10,14 +10,14 @@
     <div class="mt-4">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{% url 'expenses:home-expense' %}">Income</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Add Income</li>
+                <li class="breadcrumb-item"><a href="{% url 'income:home-income' %}">Income</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Edit Income</li>
             </ol>
         </nav>
     </div>
     <h1 class="pt-3">Add Income</h1>
 
-    <form action="{% url 'income:add-income' %}" method="post">
+    <form action="{% url 'income:edit-income' id=fieldVal.id %}" method="post">
         {% csrf_token %}
         <div class="card text-center">
             <div class="card-body">
@@ -33,9 +33,9 @@
                </div>
 
             <div class="input-group mb-3">
-              <label class="input-group-text" for="currency_form">source</label>
+              <label class="input-group-text" for="currency_form">Source</label>
               <select class="form-select" id="currency_form" name="source" aria-label="Example select with button addon">
-                <option value="" selected>Choose...</option>
+                <option selected>Choose...</option>
                 {% for source in sources %}
                 {% if source.name == fieldVal.source %}
                     <option value="{{source.name}}" selected>{{source.name}}</option>
@@ -48,7 +48,7 @@
 
             <div class="input-group mb-3">
               <span class="input-group-text" id="basic-addon1">Date</span>
-              <input type="date" class="form-control" name="date" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" {% if fieldVal.date %} value="{{fieldVal.date}}" {% endif %}>
+              <input type="date" class="form-control" name="date" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" {% if fieldVal.date %} value="{{fieldVal.date|date:"Y-m-d"}}" {% endif %}>
            </div>
            <div class="btn-group btn-group-lg position-relative" role="group">
                 <button type="submit" class="btn btn-primary">Submit</button>
@@ -57,5 +57,6 @@
         </div>
     </form>
 {% endblock content %}
+
 
 

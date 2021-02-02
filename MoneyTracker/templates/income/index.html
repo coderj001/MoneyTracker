@@ -19,7 +19,7 @@
             </nav>
         </div>
         <div class="col-md-2">
-            <a class="btn btn-primary" href="{% url 'expenses:add-expense' %}">Add Incomes</a>
+            <a class="btn btn-primary" href="{% url 'income:add-income' %}">Add Incomes</a>
         </div>
     </div>
     <br />
@@ -55,8 +55,8 @@
                         <th>{{income.source}}</th>
                         <th> {% if income.description is not '' %} {{income.description}} {% else %} No Description {% endif %} </th>
                         <th>{{income.date|date:"Y/m/d"}}</th>
-                        {# <th><a href="{% url 'income:edit-income' income.id %}" class="link-primary">edit</a></th> #}
-                        {# <th><a href="{% url 'income:delete-income' income.id %}" class="link-danger">delete</a></th> #}
+                        <th><a href="{% url 'income:edit-income' income.id %}" class="link-primary">edit</a></th>
+                        <th><a href="{% url 'income:delete-income' income.id %}" class="link-danger">delete</a></th>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -107,5 +107,7 @@
 {% endblock content %}
 
 {% block script %}
+<!-- TODO:  <03-02-21, coderj001> : Need to adjust searchIncome.js for this html -->
+   <script src="{% static 'js/searchIncome.js' %}"></script>
 {% endblock script %}
 
