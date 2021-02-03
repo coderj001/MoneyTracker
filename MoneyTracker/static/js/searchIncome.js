@@ -3,7 +3,7 @@ const orginal_tbody = document.querySelector("#table-tbody-data");
 searchField.addEventListener("keyup", (e) => {
   const searchData = e.target.value;
   if (searchData.trim().length > 0) {
-    fetch("/search_income", {
+    fetch("/income/search_income", {
       body: JSON.stringify({ searchText: searchData }),
       method: "POST",
     })
@@ -28,7 +28,7 @@ function searchFill(dataList) {
     th1.append(data["amount"]);
     tr.append(th1);
     let th2 = document.createElement("th");
-    th2.append(data["category"]);
+    th2.append(data["source"]);
     tr.append(th2);
     let th3 = document.createElement("th");
     th3.append(data["description"]);
@@ -38,14 +38,14 @@ function searchFill(dataList) {
     tr.append(th4);
     let th5 = document.createElement("th");
     let a1 = document.createElement("a");
-    a1.setAttribute("href", "edit_expense/" + data["id"] + "/");
+    a1.setAttribute("href", "edit_income/" + data["id"] + "/");
     a1.setAttribute("class", "link-primary");
     a1.append("edit");
     th5.append(a1);
     tr.append(th5);
     let th6 = document.createElement("th");
     let a2 = document.createElement("a");
-    a2.setAttribute("href", "delete_expense/" + data["id"] + "/");
+    a2.setAttribute("href", "delete_income/" + data["id"] + "/");
     a2.setAttribute("class", "link-danger");
     a2.append("delete");
     th6.append(a2);

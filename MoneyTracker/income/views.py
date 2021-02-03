@@ -106,6 +106,6 @@ def search_income(request):
             Q(source__icontains=search_var),
             owner=request.user)[:6]
 
-        data = expenses.values()
+        data = income.values()
 
         return JsonResponse(list(data), safe=False)
