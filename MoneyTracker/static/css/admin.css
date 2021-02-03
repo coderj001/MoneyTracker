@@ -1,0 +1,33 @@
+body{
+    font-family: 'Yusei Magic', sans-serif;
+}
+
+#header {
+  background: #845ec2;
+}
+
+#header h1 {
+  color: #f9f871;
+}
+
+#content-main caption {
+  background: #845ec2;
+}
+a:link,
+a:visited {
+  color: #ff5e78;
+}
+
+#nav-sidebar .module caption {
+  background: #845ec2;
+}
+
+div.breadcrumbs {
+  background: #ffc75f;
+  color: #845ec2;
+}
+
+.submit-row input {
+  background: #845ec2;
+  color: #f9f871;
+}

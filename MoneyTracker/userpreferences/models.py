@@ -8,8 +8,8 @@ class Userpreference(models.Model):
     currency = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
-        verbose_name = "Userpreferenc"
-        verbose_name_plural = "Userpreferencs"
+        verbose_name = "Userpreference"
+        verbose_name_plural = "Userpreferences"
 
     def __str__(self):
         return f"{self.user.username}'s preferences"
