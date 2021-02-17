@@ -19,4 +19,3 @@ RUN pipenv install --dev
 # copy project
 ADD . /code/
 RUN pipenv run MoneyTracker/manage.py collectstatic
-

@@ -9,6 +9,7 @@ from django.shortcuts import redirect, render
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+from django.core.validators import validate_email
 
 
 class RegistrationView(View):
@@ -124,3 +125,16 @@ def email_validation(request):
             return JsonResponse({
                 'email_valid': True
             })
+
+
+class RequestPasswordResetView(View):
+    def get(self, request):
+        return render(request, 'authentication/reset-password.html')
+
+    def post(self, request):
+        email = request.POST.get('email')
+        if not validate_email(email):
+            messages.add_message(request, messages.ERROR,
+                                 "Please supply valid email.")
+            redirect('auth:RequestReset')
+        return render(request, 'authentication/reset-password.html')
