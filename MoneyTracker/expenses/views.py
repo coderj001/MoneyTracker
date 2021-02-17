@@ -11,6 +11,7 @@ from django.urls import reverse_lazy
 from django.utils.timezone import now
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+from django.utils import timezone
 
 
 @login_required(login_url=reverse_lazy('auth:login'))
@@ -109,3 +110,16 @@ def search_expenses(request):
         data = expenses.values()
 
         return JsonResponse(list(data), safe=False)
+
+
+def expense_category_summery(request):
+    todays_date = timezone.localtime()
+    six_months_ago = todays_date-timezone.timedelta(days=30*6)
+    expenses = Expense.objects.filter(
+        date__gte=six_months_ago, date__lte=todays_date)
+    category_list = expenses.values_list('category', flat=True).distinct()
+
+    category_price = dict()
+    for category in category_list:
+        category_price[category] = expenses.filter(
+            category=category).aggregate(Sum('amount')).get('amount__sum')

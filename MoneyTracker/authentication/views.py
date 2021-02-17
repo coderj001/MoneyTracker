@@ -4,12 +4,13 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.validators import validate_email
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from django.core.validators import validate_email
 
 
 class RegistrationView(View):
@@ -137,4 +138,17 @@ class RequestPasswordResetView(View):
             messages.add_message(request, messages.ERROR,
                                  "Please supply valid email.")
             redirect('auth:RequestReset')
+
+        user = User.objects.filter(email=email)
+        user = user[0]
+        if user.exists():
+            current_site = get_current_site(request)
+            messages.add_message(request, messages.SUCCESS,
+                                 'Mail is sent to your email address.')
+            email_content = {
+                'user': user,
+                'domain': current_site.domain,
+            }
+            print(email_content)
+# TODO:  <17-02-21, coderj001> # Need to go through email config
         return render(request, 'authentication/reset-password.html')
