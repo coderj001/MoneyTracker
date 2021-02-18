@@ -3,11 +3,11 @@ import json
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.db.models import Q
+from django.db.models import Q, Sum
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from django.utils.timezone import now
+from django.utils.timezone import localtime, now, timedelta
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from income.models import Income, Source
@@ -109,3 +109,26 @@ def search_income(request):
         data = income.values()
 
         return JsonResponse(list(data), safe=False)
+
+
+@csrf_exempt
+@login_required
+def income_source_summery(request):
+    todays_date = localtime()
+    six_months_ago = todays_date-timedelta(days=30*6)
+    income = Income.objects.filter(
+        owner=request.user, date__gte=six_months_ago, date__lte=todays_date)
+    source_list = income.values_list('source', flat=True).distinct()
+
+    source_price = dict()
+    for source in source_list:
+        source_price[source] = income.filter(
+            source=source).aggregate(Sum('amount')).get('amount__sum')
+
+    return JsonResponse({'income_source_data': source_price},
+                        safe=False)
+
+
+@login_required
+def income_summery(request):
+    return render(request, 'income/income_summery.html')

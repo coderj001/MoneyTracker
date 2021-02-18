@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block Title %} Expense Summery {% endblock Title %}
+{% block Title %} Income Summery {% endblock Title %}
 
 
 {% block content %}
@@ -12,7 +12,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="{% url 'expenses:expense-summery' %}">Expense Summery</a>
+                        <a href="{% url 'income:income-summery' %}">Income Summery</a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">Summery</li>
                 </ol>
@@ -28,7 +28,6 @@
 
 {% block script %}
       <script src="{% static 'js/Chart.min.js' %}"></script>
-      <script src="{% static 'js/expense_stat.js' %}" charset="utf-8"></script>
+      <script src="{% static 'js/income_stat.js' %}" charset="utf-8"></script>
 {% endblock script %}
-
 

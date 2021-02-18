@@ -31,7 +31,7 @@ const renderChart = (labels, data) => {
     options: {
       title: {
         display: true,
-        text: "Expenses per catagory",
+        text: "Incomes per catagory",
         fontSize: 19,
       },
       animation: {
@@ -46,11 +46,11 @@ const renderChart = (labels, data) => {
 };
 
 const getChartData = () => {
-  fetch("/expense_category_summery")
+  fetch("/income/income_source_summery")
     .then((res) => res.json())
     .then((result) => {
       // console.log("result: ", result);
-      const catagory_data = result.expense_category_data;
+      const catagory_data = result.income_source_data;
       const [label, data] = [
         Object.keys(catagory_data),
         Object.values(catagory_data),

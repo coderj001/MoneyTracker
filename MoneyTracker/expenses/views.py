@@ -7,8 +7,7 @@ from django.db.models import Q, Sum
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from django.utils import timezone
-from django.utils.timezone import now
+from django.utils.timezone import now, localtime, timedelta
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from expenses.models import Catagory, Expense
@@ -115,8 +114,8 @@ def search_expenses(request):
 @csrf_exempt
 @login_required
 def expense_category_summery(request):
-    todays_date = timezone.localtime()
-    six_months_ago = todays_date-timezone.timedelta(days=30*6)
+    todays_date = localtime()
+    six_months_ago = todays_date-timedelta(days=30*6)
     expenses = Expense.objects.filter(
         owner=request.user, date__gte=six_months_ago, date__lte=todays_date)
     category_list = expenses.values_list('category', flat=True).distinct()
