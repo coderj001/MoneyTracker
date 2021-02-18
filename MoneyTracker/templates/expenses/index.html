@@ -27,6 +27,9 @@
     <div class="row">
         <div class="col-md-6"></div>
         <div class="col-md-6">
+            <a href="{% url 'expenses:export-csv' %}" class="btn btn-secondary">Export CSV</a>
+            {# <a href="{% url 'expenses:export-xl' %}" class="btn btn-primary">Export XL</a> #}
+            {# <a href="{% url 'expenses:export-pdf' %}" class="btn btn-dark">Export PDF</a> #}
             <form action="" method="post">
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="">Search</span>

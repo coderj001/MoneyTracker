@@ -1,13 +1,14 @@
+import csv
 import json
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db.models import Q, Sum
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from django.utils.timezone import now, localtime, timedelta
+from django.utils.timezone import localtime, now, timedelta
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from expenses.models import Catagory, Expense
@@ -132,3 +133,20 @@ def expense_category_summery(request):
 @login_required
 def expense_summery(request):
     return render(request, 'expenses/expenses_summery.html')
+
+
+def export_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; ' \
+        f'filename=Expenses-{request.user.username}-{now().date()}.csv'
+
+    writer = csv.writer(response)
+    writer.writerow(['Amount', 'Description', 'Catagory', 'Date'])
+
+    expenses = Expense.objects.filter(owner=request.user)
+
+    for expense in expenses:
+        writer.writerow([expense.amount, expense.description,
+                         expense.category, expense.date])
+
+    return response
