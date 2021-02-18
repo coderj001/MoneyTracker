@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block Title %} Expense Summery {% endblock Title %}
+
+
+{% block content %}
+    {% include "partial/messages.html" %}
+    <br>
+    <div class="row">
+        <div class="col-md-10">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'expenses:expense-summery' %}">Expense Summery</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">Summery</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <br />
+    <br />
+    <div>
+        <canvas id="myChart" width="400" height="400"></canvas>
+    </div>
+{% endblock content %}
+
+{% block script %}
+      <script src="{% static 'js/Chart.min.js' %}"></script>
+      <script src="{% static 'js/expense_stat.js' %}" charset="utf-8"></script>
+{% endblock script %}
+

@@ -1,17 +1,17 @@
 import json
 
-from expenses.models import Catagory, Expense
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.db.models import Q
+from django.db.models import Q, Sum
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.utils.timezone import now
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from django.utils import timezone
+from expenses.models import Catagory, Expense
 
 
 @login_required(login_url=reverse_lazy('auth:login'))
@@ -112,14 +112,24 @@ def search_expenses(request):
         return JsonResponse(list(data), safe=False)
 
 
+@csrf_exempt
+@login_required
 def expense_category_summery(request):
     todays_date = timezone.localtime()
     six_months_ago = todays_date-timezone.timedelta(days=30*6)
     expenses = Expense.objects.filter(
-        date__gte=six_months_ago, date__lte=todays_date)
+        owner=request.user, date__gte=six_months_ago, date__lte=todays_date)
     category_list = expenses.values_list('category', flat=True).distinct()
 
     category_price = dict()
     for category in category_list:
         category_price[category] = expenses.filter(
             category=category).aggregate(Sum('amount')).get('amount__sum')
+
+    return JsonResponse({'expense_category_data': category_price},
+                        safe=False)
+
+
+@login_required
+def expense_summery(request):
+    return render(request, 'expenses/expenses_summery.html')
