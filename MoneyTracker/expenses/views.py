@@ -1,6 +1,7 @@
 import csv
 import json
 
+import xlwt
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
@@ -135,6 +136,7 @@ def expense_summery(request):
     return render(request, 'expenses/expenses_summery.html')
 
 
+@login_required
 def export_csv(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; ' \
@@ -150,3 +152,33 @@ def export_csv(request):
                          expense.category, expense.date])
 
     return response
+
+
+@login_required
+def export_excel(request):
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; ' \
+        f'filename=Expenses-{request.user.username}-{now().date()}.xls'
+    wb = xlwt.Workbook(encoding='utf-8')
+    ws = wb.add_sheet('Expenses')
+    row_num = 0
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = True
+    columns = ['Amount', 'Description', 'Catagory', 'Date']
+    for col_num in range(len(columns)):
+        ws.write(row_num, col_num, columns[col_num], font_style)
+    font_style = xlwt.XFStyle()
+    rows = Expense.objects.filter(owner=request.user).values_list(
+        'amount', 'description', 'category', 'date')
+    for row in rows:
+        row_num += 1
+        for col_num in range(len(row)):
+            ws.write(row_num, col_num, str(row[col_num]), font_style)
+
+    wb.save(response)
+    return response
+
+
+@login_required
+def export_pdf(request):
+    pass

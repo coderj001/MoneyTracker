@@ -1,7 +1,6 @@
-from income.views import (home_income, add_income,
-                          income_summery, income_source_summery,
-                          edit_income, delete_income, search_income)
 from django.urls import path
+from income.views import (add_income, delete_income, edit_income, home_income,
+                          income_source_summery, income_summery, search_income)
 
 app_name = 'income'
 
