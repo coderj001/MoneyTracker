@@ -9,7 +9,7 @@ on:
       - develop
 job:
   build:
-  name: Secutity Check
-  run-on: ubuntu-letest
-    steps:
-      - uses: victoriadrake/django-security-check@v1.1.0
+      name: Secutity Check
+      run-on: ubuntu-letest
+        steps:
+          - uses: victoriadrake/django-security-check@v1.1.0
