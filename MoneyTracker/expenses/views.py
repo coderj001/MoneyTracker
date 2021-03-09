@@ -1,7 +1,7 @@
 import csv
 import json
+from tempfile import NamedTemporaryFile
 
-import templates
 import xlwt
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -185,12 +185,28 @@ def export_excel(request: HttpRequest) -> HttpResponse:
 @login_required
 def export_pdf(request: HttpRequest) -> HttpResponse:
     response = HttpResponse(content_type='application/pfd')
-    response['Content-Disposition'] = 'attachment; ' \
+    response['Content-Disposition'] = 'inlineattachment; ' \
         f'filename=Expenses-{request.user.username}-{now().date()}.pdf'
     response['Content-Transfer-Encoding'] = 'binary'
 
+    expenses = Expense.objects.filter(owner=request.user)
+
+    sum = expenses.aggregate(Sum('amount')).get('amount__sum')
+
     html_string = render_to_string(
-        'expenses/pdf-output.html', {'expenses': [], 'total': 0})
+        'expenses/pdf-output.html',
+        {'expenses': expenses,
+         'total': sum})
 
     html = HTML(string=html_string)
     result = html.write_pdf()
+
+    with NamedTemporaryFile(delete=True) as output:
+
+        output.write(result)
+        output.flush()
+
+        output = open(output.name, 'rb')
+        response.write(output.read())
+
+    return response
