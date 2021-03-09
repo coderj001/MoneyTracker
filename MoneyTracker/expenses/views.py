@@ -1,22 +1,25 @@
 import csv
 import json
 
+import templates
 import xlwt
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db.models import Q, Sum
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
+from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.utils.timezone import localtime, now, timedelta
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from expenses.models import Catagory, Expense
+from weasyprint import HTML
 
 
 @login_required(login_url=reverse_lazy('auth:login'))
-def home_expense(request):
+def home_expense(request: HttpRequest) -> HttpResponse:
     data = Expense.objects.filter(owner=request.user)
     paginator = Paginator(data, 6)
     page_number = request.GET.get('page')
@@ -26,7 +29,7 @@ def home_expense(request):
 
 
 @login_required(login_url=reverse_lazy('auth:login'))
-def add_expense(request):
+def add_expense(request: HttpRequest) -> HttpResponse:
     catagory = Catagory.objects.all()
 
     if request.method == 'POST':
@@ -57,7 +60,7 @@ def add_expense(request):
 
 
 @login_required(login_url=reverse_lazy('auth:login'))
-def edit_expense(request, id):
+def edit_expense(request: HttpRequest, id: int) -> HttpResponse:
     expense = Expense.objects.get(pk=id)
     catagory = Catagory.objects.all()
     if request.method == 'GET':
@@ -89,7 +92,7 @@ def edit_expense(request, id):
 
 
 @login_required(login_url=reverse_lazy('auth:login'))
-def delete_expense(request, id):
+def delete_expense(request: HttpRequest, id: int) -> HttpResponse:
     expense = Expense.objects.get(pk=id)
     expense.delete()
     return redirect('expenses:home-expense')
@@ -98,7 +101,7 @@ def delete_expense(request, id):
 @csrf_exempt
 @require_POST
 @login_required
-def search_expenses(request):
+def search_expenses(request: HttpRequest) -> HttpResponse:
     if request.method == 'POST':
         search_var = json.loads(request.body).get('searchText')
         expenses = Expense.objects.filter(
@@ -115,7 +118,7 @@ def search_expenses(request):
 
 @csrf_exempt
 @login_required
-def expense_category_summery(request):
+def expense_category_summery(request: HttpRequest) -> HttpResponse:
     todays_date = localtime()
     six_months_ago = todays_date-timedelta(days=30*6)
     expenses = Expense.objects.filter(
@@ -132,12 +135,12 @@ def expense_category_summery(request):
 
 
 @login_required
-def expense_summery(request):
+def expense_summery(request: HttpRequest) -> HttpResponse:
     return render(request, 'expenses/expenses_summery.html')
 
 
 @login_required
-def export_csv(request):
+def export_csv(request: HttpRequest) -> HttpResponse:
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; ' \
         f'filename=Expenses-{request.user.username}-{now().date()}.csv'
@@ -155,7 +158,7 @@ def export_csv(request):
 
 
 @login_required
-def export_excel(request):
+def export_excel(request: HttpRequest) -> HttpResponse:
     response = HttpResponse(content_type='application/ms-excel')
     response['Content-Disposition'] = 'attachment; ' \
         f'filename=Expenses-{request.user.username}-{now().date()}.xls'
@@ -180,5 +183,14 @@ def export_excel(request):
 
 
 @login_required
-def export_pdf(request):
-    pass
+def export_pdf(request: HttpRequest) -> HttpResponse:
+    response = HttpResponse(content_type='application/pfd')
+    response['Content-Disposition'] = 'attachment; ' \
+        f'filename=Expenses-{request.user.username}-{now().date()}.pdf'
+    response['Content-Transfer-Encoding'] = 'binary'
+
+    html_string = render_to_string(
+        'expenses/pdf-output.html', {'expenses': [], 'total': 0})
+
+    html = HTML(string=html_string)
+    result = html.write_pdf()
