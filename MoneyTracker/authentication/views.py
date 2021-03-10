@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.validators import validate_email
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
@@ -77,7 +77,7 @@ class LoginView(View):
 
 
 @login_required
-def logout_user(request):
+def logout_user(request: HttpRequest) -> HttpResponse:
     logout(request)
     return redirect('auth:login')
 
@@ -86,7 +86,7 @@ def logout_user(request):
 
 @require_POST
 @csrf_exempt
-def username_validation(request):
+def username_validation(request: HttpRequest) -> JsonResponse:
     if request.method == 'POST':
         data = json.loads(request.body)
         username = data.get('username')
@@ -113,7 +113,7 @@ def username_validation(request):
 
 @require_POST
 @csrf_exempt
-def email_validation(request):
+def email_validation(request: HttpRequest) -> JsonResponse:
     if request.method == 'POST':
         data = json.loads(request.body)
         email = data.get('email')

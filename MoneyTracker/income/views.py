@@ -1,21 +1,24 @@
 import csv
 import json
+from tempfile import NamedTemporaryFile
 
+import xlwt
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db.models import Q, Sum
-from django.http import JsonResponse
+from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.utils.timezone import localtime, now, timedelta
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from income.models import Income, Source
+from weasyprint import HTML
 
 
 @login_required(login_url=reverse_lazy('auth:login'))
-def home_income(request):
+def home_income(request: HttpRequest) -> HttpResponse:
     data = Income.objects.filter(owner=request.user)
     paginator = Paginator(data, 6)
     page_number = request.GET.get('page')
@@ -25,7 +28,7 @@ def home_income(request):
 
 
 @login_required(login_url=reverse_lazy('auth:login'))
-def add_income(request):
+def add_income(request: HttpRequest) -> HttpResponse:
     source = Source.objects.all()
 
     if request.method == 'POST':
@@ -56,7 +59,7 @@ def add_income(request):
 
 
 @login_required(login_url=reverse_lazy('auth:login'))
-def edit_income(request, id):
+def edit_income(request: HttpRequest, id: int) -> HttpResponse:
     income = Income.objects.get(pk=id)
     source = Source.objects.all()
     if request.method == 'GET':
@@ -88,7 +91,7 @@ def edit_income(request, id):
 
 
 @login_required(login_url=reverse_lazy('auth:login'))
-def delete_income(request, id):
+def delete_income(request: HttpRequest, id: int) -> HttpResponse:
     income = Income.objects.get(pk=id)
     income.delete()
     return redirect('income:home-income')
@@ -97,7 +100,7 @@ def delete_income(request, id):
 @csrf_exempt
 @require_POST
 @login_required
-def search_income(request):
+def search_income(request: HttpRequest) -> HttpResponse:
     if request.method == 'POST':
         search_var = json.loads(request.body).get('searchText')
         income = Income.objects.filter(
@@ -114,7 +117,7 @@ def search_income(request):
 
 @csrf_exempt
 @login_required
-def income_source_summery(request):
+def income_source_summery(request: HttpRequest) -> HttpResponse:
     todays_date = localtime()
     six_months_ago = todays_date-timedelta(days=30*6)
     income = Income.objects.filter(
@@ -131,5 +134,78 @@ def income_source_summery(request):
 
 
 @login_required
-def income_summery(request):
+def income_summery(request: HttpRequest) -> HttpResponse:
     return render(request, 'income/income_summery.html')
+
+
+@login_required
+def income_csv(request: HttpRequest) -> HttpResponse:
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; ' \
+        f'filename=Income-{request.user.username}-{now().date()}.csv'
+
+    writer = csv.writer(response)
+    writer.writerow(['Amount', 'Description', 'Source', 'Date'])
+
+    incomes = Income.objects.filter(owner=request.user)
+
+    for income in incomes:
+        writer.writerow([income.amount, income.description,
+                         income.source, income.date])
+
+    return response
+
+
+@login_required
+def export_excel(request: HttpRequest) -> HttpResponse:
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; ' \
+        f'filename=Income-{request.user.username}-{now().date()}.xls'
+    wb = xlwt.Workbook(encoding='utf-8')
+    ws = wb.add_sheet('Income')
+    row_num = 0
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = True
+    columns = ['Amount', 'Description', 'Source', 'Date']
+    for col_num in range(len(columns)):
+        ws.write(row_num, col_num, columns[col_num], font_style)
+    font_style = xlwt.XFStyle()
+    rows = Income.objects.filter(owner=request.user).values_list(
+        'amount', 'description', 'source', 'date')
+    for row in rows:
+        row_num += 1
+        for col_num in range(len(row)):
+            ws.write(row_num, col_num, str(row[col_num]), font_style)
+
+    wb.save(response)
+    return response
+
+
+@login_required
+def export_pdf(request: HttpRequest) -> HttpResponse:
+    response = HttpResponse(content_type='application/pfd')
+    response['Content-Disposition'] = 'inlineattachment; ' \
+        f'filename=Income-{request.user.username}-{now().date()}.pdf'
+    response['Content-Transfer-Encoding'] = 'binary'
+
+    incomes = Income.objects.filter(owner=request.user)
+
+    sum = incomes.aggregate(Sum('amount')).get('amount__sum')
+
+    html_string = render_to_string(
+        'incomes/pdf-output.html',
+        {'incomes': incomes,
+         'total': sum})
+
+    html = HTML(string=html_string)
+    result = html.write_pdf()
+
+    with NamedTemporaryFile(delete=True) as output:
+
+        output.write(result)
+        output.flush()
+
+        output = open(output.name, 'rb')
+        response.write(output.read())
+
+    return response
