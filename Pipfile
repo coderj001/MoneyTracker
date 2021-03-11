@@ -9,6 +9,7 @@ gunicorn = "*"
 dj-static = "*"
 xlwt = "*"
 weasyprint = "*"
+coverage = "*"
 
 [dev-packages]
 pylint = "*"
