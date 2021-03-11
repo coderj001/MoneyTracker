@@ -9,6 +9,7 @@ from django.core.paginator import Paginator
 from django.db.models import Q, Sum
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
+from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.utils.timezone import localtime, now, timedelta
 from django.views.decorators.csrf import csrf_exempt
@@ -139,7 +140,7 @@ def income_summery(request: HttpRequest) -> HttpResponse:
 
 
 @login_required
-def income_csv(request: HttpRequest) -> HttpResponse:
+def export_csv(request: HttpRequest) -> HttpResponse:
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; ' \
         f'filename=Income-{request.user.username}-{now().date()}.csv'
@@ -193,7 +194,7 @@ def export_pdf(request: HttpRequest) -> HttpResponse:
     sum = incomes.aggregate(Sum('amount')).get('amount__sum')
 
     html_string = render_to_string(
-        'incomes/pdf-output.html',
+        'income/pdf-output.html',
         {'incomes': incomes,
          'total': sum})
 

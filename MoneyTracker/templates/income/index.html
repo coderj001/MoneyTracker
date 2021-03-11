@@ -27,6 +27,9 @@
     <div class="row">
         <div class="col-md-6"></div>
         <div class="col-md-6">
+            <a href="{% url 'income:export-csv' %}" class="btn btn-secondary">Export CSV</a>
+            <a href="{% url 'income:export-excel' %}" class="btn btn-primary">Export EXCEL</a>
+            <a href="{% url 'income:export-pdf' %}" class="btn btn-dark">Export PDF</a>
             <form action="" method="post">
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="">Search</span>
@@ -103,7 +106,7 @@
             </nav>
         </div>
     </div>
-    
+
 {% endblock content %}
 
 {% block script %}
