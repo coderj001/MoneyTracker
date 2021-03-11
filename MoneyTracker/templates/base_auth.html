@@ -28,21 +28,20 @@
         }
       }
     </style>
-    
+
     <!-- Custom styles for this template -->
-    <link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
     <link href="{% static 'css/main.css' %}" rel="stylesheet">
   </head>
   <body>
     <div class="container-fluid">
         <main role="main" class="p-3">
             {% block content %}
-                
+
             {% endblock content %}
         </main>
     </div>
   </body>
   {% block script %}
-      
+
   {% endblock script %}
 </html>

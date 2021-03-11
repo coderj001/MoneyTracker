@@ -12,7 +12,8 @@ Project is still under development. Hope to complete at end of Feb 2021.
 
 ## Screenshots
 
-![screenshots](https://i.imgur.com/9kH3vfk.png)
+![screenshots 1](https://i.imgur.com/JvOOQtY.png)
+![screenshots 2](https://i.imgur.com/43HtniQ.png)
 
 ## Tech/framework used
 
@@ -22,8 +23,22 @@ Project is still under development. Hope to complete at end of Feb 2021.
 
 ## Features
 
-...
+Features are pretty basic curd operation (add, delete and update). You can store all the expense and income, and  also can edit later.
+Their also feature of chats which dataset of all category and source of expense and income.
+You can also export expense and income data in csv, excel and pdf format. Further improvement will be made in future.
 
 ## Installation
 
-...
+1. For Production
+
+```bash
+pip install -r requriments.txt
+python MoneyTracker/manage.py runserver
+```
+2. For Development
+
+```bash
+pip install -r requriments.txt
+pip install -r requriments-dev.txt
+python MoneyTracker/manage.py runserver
+```
