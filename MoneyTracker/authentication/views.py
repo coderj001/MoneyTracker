@@ -43,6 +43,7 @@ class RegistrationView(View):
 
             return redirect('auth:login')
         except Exception as e:
+            print(e)
             messages.add_message(request, messages.ERROR,
                                  "Please enter unique username and email.")
             return render(request, 'authentication/register.html',
