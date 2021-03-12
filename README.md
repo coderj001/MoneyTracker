@@ -8,7 +8,7 @@ I have have created this project for to increase my efficacy with django and to 
 
 ## Status (On Going)
 
-Project is still under development. Hope to complete at end of Feb 2021.
+Project is still under development.
 
 ## Screenshots
 
