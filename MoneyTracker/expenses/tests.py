@@ -2,11 +2,10 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from expenses.models import Expense, Catagory
 
-user = User.objects.get(username='admintest')
-
 
 class ExpenseTestCase(TestCase):
     def setUp(self):
+        user = User.objects.create(username='testcase')
         self.expense = Expense.objects.create(
             amount=1000,
             description='test case',
@@ -28,4 +27,4 @@ class CatagoryTestCase(TestCase):
     def test_catagory_model(self):
         d = self.category
         self.assertTrue(isinstance(d, Catagory))
-        self.assertEqual(str(d), 'TestCase')
+        self.assertEqual(str(d), 'TESTCASE')

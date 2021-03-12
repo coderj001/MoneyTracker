@@ -1,6 +1,9 @@
-from authentication.views import (LoginView, RegistrationView,
-                                  email_validation, logout_user,
-                                  username_validation, RequestPasswordResetView)
+from authentication.views import (LoginView,
+                                  RegistrationView,
+                                  RequestPasswordResetView,
+                                  email_validation,
+                                  logout_user,
+                                  username_validation)
 from django.urls import path
 
 app_name = 'auth'
