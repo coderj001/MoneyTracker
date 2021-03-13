@@ -29,9 +29,9 @@ jobs:
                   flake8
             - name: Coverage report
               env:
-                  secret_key: ${{DJANGO.SECRET_KEY}}
-                  debug: ${{DJANGO.DEBUG}}
-                  db: ${{DJANGO.DB}}
+                  secret_key: ${{secrets.SECRET_KEY}}
+                  debug: ${{secrets.DEBUG}}
+                  db: ${{secrets.DB}}
               run: |
                   pip install coverage
                   coverage run MoneyTracker/manage.py test
