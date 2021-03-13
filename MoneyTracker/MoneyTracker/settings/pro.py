@@ -1,4 +1,7 @@
 """ production """
+import dj_database_url
+import os
+
 from .base import *
 
 DEBUG = False
@@ -8,13 +11,9 @@ ALLOWED_HOSTS = ["*"]
 
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'HOST': 'db',
-        'POST': 5432,
-    }
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL')
+    )
 }
 
 # logging

@@ -9,6 +9,8 @@ gunicorn = "*"
 dj-static = "*"
 xlwt = "*"
 weasyprint = "*"
+dj-database-url = "*"
+psycopg2-binary = "*"
 
 [dev-packages]
 coverage = "*"

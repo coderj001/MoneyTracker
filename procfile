@@ -1,0 +1,1 @@
+web: gunicorn MoneyTracker/MoneyTracker/wsgi.py --log-file -
