@@ -28,14 +28,15 @@ jobs:
                   pip install flake8
                   flake8
             - name: Coverage report
-              env:
-                  secret_key: ')y6)n^6($nw^tpyso8v!6#*jc69ht4l^=njpot)od2*ue_7i-4'
-                  debug: True
-                  db: 'sqlite3'
               run: |
                   pip install coverage
+                  python3 -m "import os; print(os.environ.get('secret_key'))"
                   coverage run MoneyTracker/manage.py test
                   coverage report
+              env:
+                  secret_key: ${{secrets.SECRET_KEY}}
+                  debug: ${{secrets.DEBUG}}
+                  db: ${{secrets.DB}}
             - name: Django testing
               run: |
                   python3 MoneyTracker/manage.py test MoneyTracker

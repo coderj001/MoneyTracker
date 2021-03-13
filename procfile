@@ -1,1 +1,1 @@
-web: gunicorn MoneyTracker/MoneyTracker/wsgi.py --log-file -
+web: cd MoneyTracker && gunicorn MoneyTracker.wsgi --log-file -
