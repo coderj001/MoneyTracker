@@ -31,28 +31,6 @@ LOGGING = {
             'style': '{',
         },
     },
-    'filters': {
-        'special': {
-            '()': 'project.logging.SpecialFilter',
-            'foo': 'bar',
-        },
-        'require_debug_true': {
-            '()': 'django.utils.log.RequireDebugTrue',
-        },
-    },
-    'handlers': {
-        'console': {
-            'level': 'INFO',
-            'filters': ['require_debug_true'],
-            'class': 'logging.StreamHandler',
-            'formatter': 'simple'
-        },
-        'mail_admins': {
-            'level': 'ERROR',
-            'class': 'django.utils.log.AdminEmailHandler',
-            'filters': ['special']
-        }
-    },
     'loggers': {
         'django': {
             'handlers': ['console'],
