@@ -25,6 +25,7 @@ Werkzeug = "*"
 django-debug-toolbar = "*"
 isort = "*"
 flake8 = "*"
+autopep8 = "*"
 
 [requires]
 python_version = "3.8"
