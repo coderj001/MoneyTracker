@@ -8,7 +8,7 @@ Django = "*"
 gunicorn = "*"
 dj-static = "*"
 xlwt = "*"
-weasyprint = "*"
+WeasyPrint = "*"
 dj-database-url = "*"
 psycopg2-binary = "*"
 

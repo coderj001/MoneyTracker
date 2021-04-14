@@ -30,7 +30,6 @@ jobs:
             - name: Coverage report
               run: |
                   pip install coverage
-                  python3 -m "import os; print(os.environ.get('secret_key'))"
                   coverage run MoneyTracker/manage.py test
                   coverage report
               env:
