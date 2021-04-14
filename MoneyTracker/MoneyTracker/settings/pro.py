@@ -10,6 +10,8 @@ DEBUG = False
 ALLOWED_HOSTS = ["moneytr-app.herokuapp.com"]
 
 
+DEFAULT_AUTO_FIELD='django.db.models.AutoField'
+
 DATABASES = {
     'default': dj_database_url.config(
         default=os.environ.get('DATABASE_URL')

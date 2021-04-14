@@ -156,3 +156,4 @@ dmypy.json
 .vim
 tags
 htmlcov/
+staticfiles/
